@@ -14,6 +14,8 @@ FFXIV 絕妖星亂舞 P4 大十字的非官方記憶工具。手動輸入減益�
 
 ### 操作方式
 
+工具列可切換簡易／詳細模式。簡易模式顯示整體分散，只選「加速度」並提示動／不動，不判定加速度時機，也不提示去場中；以下第2、3點為詳細模式的操作。
+
 1. 輸入兩次 GC 的真假，水／雷長短選一次即可，另一輪會自動相反。
 2. 水／雷可不填：兩輪都不填看整體分散；任一輪有填，兩輪都看個人行動。
 3. 選擇自己的視線或加速度。GC1 視線與短加速度、GC2 視線與長加速度會一起選取／取消；衝突的減益會自動取消。
@@ -48,6 +50,8 @@ FFXIV「絶妖星乱舞」P4 グランドクロスの非公式メモツールで
 
 ### 使い方
 
+ツールバーで簡易／詳細モードを切り替えます。簡易モードは全体の散開を表示し、加速度は早／遅を選ばず動く／止まるだけを表示します。加速度の時点や「中央へ」は表示しません。以下の2・3は詳細モードの操作です。
+
 1. 各GCの真偽を入力します。水／雷の早・遅は一度だけ選択し、もう一方は自動で逆になります。
 2. 水／雷は任意です。両方未選択なら全体の散開、どちらかを選ぶと両GCとも自分の行動を表示します。
 3. 自分の視線または加速度を選びます。GC1の視線は早加速、GC2の視線は遅加速と連動し、選択も解除もセットです。両立しないデバフは自動解除されます。
@@ -81,6 +85,8 @@ On your first visit, the browser's language preferences select Chinese, Japanese
 [Open DMU P4 Kefka Says](https://aphelarion.github.io/dmu-p4-helper/)
 
 ### How to use
+
+Switch between Simple and Detailed in the toolbar. Simple shows party spread calls and one Accel choice per GC, with Stop/Move shown without a timing or Go to middle reminder. Steps 2–3 below apply to Detailed mode.
 
 1. Enter Real/Fake for each GC. Set Water/Thunder timing once; the other GC automatically gets the opposite timing.
 2. Water/Thunder is optional. Leave both blank for party spread calls; select either for personal actions in both GCs.

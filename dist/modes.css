@@ -1,0 +1,20 @@
+.mode-switch button{padding:0 10px;white-space:nowrap}
+.simple-buff{grid-template-columns:1fr}
+.simple-acceleration{margin-top:0}
+.simple-acceleration .route-call{grid-column:1/-1}
+@media(min-width:801px){
+ .mode-switch button{padding:0 calc(10 * var(--desktop-unit))}
+}
+@media(max-width:800px){
+ .toolbar-controls{flex-wrap:wrap}
+ .mode-switch button{padding:0 7px}
+ html[data-view-mode=simple] .route-entry.water,
+ html[data-view-mode=simple] .route-entry.gaze{height:var(--route-row-height);--action-row-base:var(--route-row-height);--action-row-lines:1}
+ .simple-acceleration{--action-row-base:var(--route-row-height)}
+}
+@media(max-width:800px) and (max-height:700px){
+ html[data-view-mode=simple] .results{--route-row-height:48px}
+}
+@media(max-width:800px) and (max-height:600px){
+ html[data-view-mode=simple] .results{--route-row-height:44px}
+}

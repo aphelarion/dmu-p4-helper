@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {resolveLanguage} from './dist/i18n.js';
-import {blank,timeline,select,setTiming,wlAction,globalWLAction,accelTiming,combineTruth,selectMagic,magicResult,normalizeBuffs} from './dist/mechanics.js';
+import {blank,timeline,simpleTimeline,select,setTiming,wlAction,globalWLAction,accelTiming,combineTruth,selectMagic,magicResult,normalizeBuffs} from './dist/mechanics.js';
 
 for(const [saved,preferred,expected]of [
  ['ja',['zh-TW'],'ja'],['en',['ja-JP'],'en'],['zh',['en-US'],'zh'],
@@ -160,3 +160,23 @@ for(const [gc,matching]of [['gc1','early'],['gc2','late']]){
  const old=blank();Object.assign(old[gc],{water:'water',gaze:true,accel:matching});normalizeBuffs(old);invariant(old);
 }
 console.log('Linked cancellation and same-GC Water/Thunder vs Gaze/Accel exclusions passed in both directions.');
+
+// Simple mode never inherits a personal debuff, center call or acceleration timing.
+for(const truth1 of [null,'true','fake'])for(const truth2 of [null,'true','fake'])for(const timing of ['early','late'])for(const owner of [null,'gc1','gc2']){
+ const state=blank();state.gc1.truth=truth1;state.gc2.truth=truth2;setTiming(state,'gc1',timing);
+ select(state,'gc1','water','thunder');select(state,'gc2','gaze',true);
+ state.gc1.chaos='true';state.gc2.chaos='fake';state.gc1.element='fire';
+ const original=structuredClone(state),detailed=timeline(state),simple=simpleTimeline(state,owner);
+ assert.deepEqual(state,original,'Switching to simple mode must preserve detailed inputs');
+ assert.equal(simple.rows.length,6);
+ for(const [gc,index]of [['gc1',timing==='early'?0:3],['gc2',timing==='early'?3:0]]){
+  assert.equal(simple.rows[index].actions[0].mode,'party');
+  assert.equal(simple.rows[index].actions[0].action,globalWLAction(state[gc].truth));
+ }
+ for(const i of [1,4]){assert.equal(simple.rows[i].actions[0].center,false);assert.equal(simple.rows[i].actions[0].action,detailed.rows[i].actions[0].action);}
+ for(const i of [2,5])assert.deepEqual(simple.rows[i],detailed.rows[i]);
+ assert.ok(!simple.rows.some(row=>row.actions.some(action=>action.kind==='accel')));
+ assert.equal(simple.untimed.length,1);
+ assert.equal(simple.untimed[0].action,owner?(state[owner].truth==='true'?'stop':state[owner].truth==='fake'?'move':null):null);
+}
+console.log('Simple mode party calls, untimed acceleration, missing inputs and detailed-state preservation passed.');

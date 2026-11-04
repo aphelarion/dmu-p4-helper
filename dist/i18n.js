@@ -20,3 +20,10 @@ const settingsWords={
   en:{settings:'Settings',actionTextSize:'Action text size',smallerText:'Smaller text',largerText:'Larger text',defaultTextSize:'Restore default'}
 };
 for(const [language,translations]of Object.entries(settingsWords))Object.assign(words[language],translations);
+
+const modeWords={
+  zh:{viewMode:'顯示模式',simpleMode:'簡易',detailedMode:'詳細',simpleHelp2:'簡易模式只顯示整體：依真假提示水分散或雷分散。水雷長短選一次，另一輪自動相反。',simpleHelp3:'在拿到加速度的那輪勾選「加速度」：真不動、假動。提示放在前半處理上方，不判定發動時機。'},
+  ja:{viewMode:'表示モード',simpleMode:'簡易',detailedMode:'詳細',simpleHelp2:'簡易モードは全体の水／雷散開を表示。水雷の早／遅を一度選ぶと、もう一方は逆になります。',simpleHelp3:'加速度が付いたGCで「加速度」を選択。本当は止まる、嘘は動く。前半処理の上に表示し、発動時点は判定しません。'},
+  en:{viewMode:'Display mode',simpleMode:'Simple',detailedMode:'Detailed',simpleHelp2:'Simple mode shows party calls: Water spreads or Thunder spreads. Set Water/Thunder timing once; the other GC gets the opposite.',simpleHelp3:'Select Accel in the GC where you receive it. Real means Stop; Fake means Move. The call appears above Early resolution without assigning a timing.'}
+};
+for(const [language,translations]of Object.entries(modeWords))Object.assign(words[language],translations);

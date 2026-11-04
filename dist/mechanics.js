@@ -26,6 +26,17 @@ export function timeline(s){
   return {rows,untimed,complete:rows.every(r=>r.actions.every(a=>!!a.action))&&untimed.length===0};
 }
 
+// Simple mode ignores personal debuffs without changing the detailed inputs.
+export function simpleTimeline(state,accelOwner=null){
+  const projected={...state};
+  for(const gc of ['gc1','gc2'])projected[gc]={...state[gc],water:null,gaze:false,accel:null};
+  const route=timeline(projected);
+  const source=['gc1','gc2'].includes(accelOwner)?accelOwner:null;
+  route.untimed=[{kind:'accel',icon:'accel',action:source?accelAction(state[source].truth):null,source:source==='gc1'?1:source==='gc2'?2:null}];
+  route.complete=route.rows.every(r=>r.actions.every(a=>!!a.action))&&!!route.untimed[0].action;
+  return route;
+}
+
 // The latest selection owns its cross-GC group. Gaze and Accel may coexist in that GC.
 export function select(state,gc,field,value){
   if(field==='timing'){setTiming(state,gc,value);return;}
