@@ -1,9 +1,11 @@
 import {blank,select,timeline,selectMagic,magicResult,normalizeBuffs} from './mechanics.js';
 import {words,resolveLanguage} from './i18n.js';
+import {normalizeActionTextSize} from './preferences.js';
 const browserLanguages=navigator.languages?.length?navigator.languages:[navigator.language];
-let state=blank(),lang=resolveLanguage(null,browserLanguages),resultsSide='right';
+let state=blank(),lang=resolveLanguage(null,browserLanguages),resultsSide='right',actionTextSize=100;
 const choices={truth:['true','fake'],water:['water','thunder'],timing:['early','late'],chaos:['true','fake'],element:['fire','wave'],accel:['early','late']};
 try{
+  actionTextSize=normalizeActionTextSize(localStorage.getItem('dmu-action-text-size'));
   lang=resolveLanguage(localStorage.getItem('dmu-lang'),browserLanguages);
   const savedSide=localStorage.getItem('dmu-results-side-v2');if(['left','right'].includes(savedSide))resultsSide=savedSide;
   const saved=JSON.parse(sessionStorage.getItem('dmu-input-v3')||'null');
@@ -16,6 +18,24 @@ try{
 }catch{}
 const t=k=>words[lang][k]||k;
 const magicElements=['thunder','ice'];
+const settingsIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.2 3-.5 2.1-1.4.8-2.1-.6-2.8 4.8 1.6 1.5v1.6l-1.6 1.5 2.8 4.8 2.1-.6 1.4.8.5 2.1h5.6l.5-2.1 1.4-.8 2.1.6 2.8-4.8-1.6-1.5v-1.6l1.6-1.5-2.8-4.8-2.1.6-1.4-.8-.5-2.1Z"/><circle cx="12" cy="12" r="3"/></svg>';
+function settingsDialog(){return `<dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title"><div class="dialog-heading"><h2 id="settings-title">${t('settings')}</h2><button type="button" data-action="settings-close" class="icon-button" aria-label="${t('close')}">×</button></div><div class="text-size-heading"><label for="action-text-size">${t('actionTextSize')}</label><output for="action-text-size" data-text-size-output>${actionTextSize}%</output></div><div class="text-size-controls"><button type="button" data-action="text-smaller" aria-label="${t('smallerText')}">A−</button><input id="action-text-size" type="range" min="80" max="150" step="5" value="${actionTextSize}" data-action-text-size><button type="button" data-action="text-larger" aria-label="${t('largerText')}">A+</button></div><div class="text-size-preview" aria-hidden="true"><span class="route-word water">${t('stack')}</span><span class="route-word stop">${t('stop')}</span><span class="route-word gaze">${t('away')}</span></div><button type="button" class="demo-button settings-default" data-action="text-default">${t('defaultTextSize')}</button></dialog>`;}
+function applyActionTextSize(value,persist=true){
+  actionTextSize=normalizeActionTextSize(value);
+  const root=document.documentElement;
+  root.style.setProperty('--action-text-scale',actionTextSize/100);
+  root.style.setProperty('--action-text-growth',Math.max(0,actionTextSize/100-1));
+  root.dataset.actionTextSize=actionTextSize===100?'default':'custom';
+  const input=document.querySelector('#action-text-size');
+  if(input){input.value=actionTextSize;input.setAttribute('aria-valuetext',`${actionTextSize}%`);}
+  const output=document.querySelector('[data-text-size-output]');if(output)output.textContent=`${actionTextSize}%`;
+  const smaller=document.querySelector('[data-action="text-smaller"]'),larger=document.querySelector('[data-action="text-larger"]');
+  if(smaller)smaller.disabled=actionTextSize<=80;if(larger)larger.disabled=actionTextSize>=150;
+  const preview=document.querySelector('.text-size-preview'),results=document.querySelector('.results');
+  if(preview&&results){const style=getComputedStyle(results);for(const key of ['--route-value-size','--route-value-line'])preview.style.setProperty(key,style.getPropertyValue(key));}
+  sizeEnglishColumn();
+  if(persist)try{localStorage.setItem('dmu-action-text-size',String(actionTextSize));}catch{}
+}
 function sizeEnglishColumn(){
   if(lang!=='en'||!window.matchMedia?.('(min-width:801px)').matches)return;
   const results=document.querySelector('.results'),wordStyle=getComputedStyle(results.querySelector('.route-word')),label=results.querySelector('.route-label'),badge=results.querySelector('.route-badge');
@@ -26,8 +46,9 @@ function sizeEnglishColumn(){
   const labelStyle=getComputedStyle(label),badgeStyle=getComputedStyle(badge);
   const badgeExtra=['paddingLeft','paddingRight','borderLeftWidth','borderRightWidth'].reduce((sum,key)=>sum+parseFloat(badgeStyle[key]||0),0);
   const heading=measure(t('waterRow'),labelStyle)+measure(t(personal?'personal':'party'),badgeStyle)+badgeExtra+parseFloat(labelStyle.columnGap||0);
-  const base=parseFloat(getComputedStyle(results).getPropertyValue('--route-base-first'));
-  results.style.setProperty('--route-first',`${Math.ceil(Math.max(base,heading,...keys.map(key=>measure(t(key),wordStyle,'700'))))}px`);
+  const base=parseFloat(getComputedStyle(results).getPropertyValue('--route-base-first'))*actionTextSize/100;
+  const breathingRoom=parseFloat(wordStyle.fontSize)*.5;
+  results.style.setProperty('--route-first',`${Math.ceil(Math.max(base,heading,...keys.map(key=>measure(t(key),wordStyle,'700')))+breathingRoom)}px`);
 }
 const icon=k=>`<img class="status-icon" src="./assets/${k}.png" alt="" width="48" height="64">`;
 const truthMark=value=>`<span class="truth-mark ${value}" aria-hidden="true"><img src="./assets/truth-${value}.svg" alt="" width="64" height="64"></span>`;
@@ -54,16 +75,28 @@ function magicSafe(){const result=magicResult(state.magic);return `<section clas
 function render(){
   const route=timeline(state);document.documentElement.dataset.resultsSide=resultsSide;document.documentElement.lang=lang==='zh'?'zh-Hant':lang;document.title=`DMU · ${t('title')}`;
   document.querySelector('#app').innerHTML=`
-    <main class="workspace"><div class="inputs">${card('gc1',1)}${card('gc2',2)}${magicStage('charge')}${magicStage('out')}</div><section class="results" aria-labelledby="result-title"><h2 id="result-title">${t('result')}<span class="result-tools"><button class="reset-button" data-action="reset">${svg('reset')}<span>${t('reset')}</span></button><button class="position-button" data-action="side" title="${t(resultsSide==='left'?'toRight':'toLeft')}" aria-label="${t(resultsSide==='left'?'toRight':'toLeft')}">⇄</button></span></h2><div id="live-route" aria-live="polite" aria-atomic="true">${['early','late'].map((timing,index)=>`<section class="resolution"><h3>${t(index===0?'first':'second')}</h3><ol start="${index*3+1}">${route.rows.slice(index*3,index*3+3).map((r,i)=>row(r,index*3+i)).join('')}</ol></section>`).join('')}</div></section></main><footer class="toolbar"><h1>DMU <span>${t('title')}</span></h1><div class="toolbar-controls"><div class="languages" role="group" aria-label="Language">${[['zh','中'],['ja','日'],['en','EN']].map(([k,label])=>`<button data-lang="${k}" aria-pressed="${lang===k}" class="${lang===k?'active':''}">${label}</button>`).join('')}</div><button class="icon-button" data-action="theme" aria-label="${t(document.documentElement.dataset.theme==='dark'?'light':'dark')}">${svg(document.documentElement.dataset.theme==='dark'?'sun':'moon')}</button><button class="icon-button help-button" data-action="help" aria-label="${t('help')}">${svg('help')}</button></div></footer>
-    <dialog id="help-dialog"><div class="dialog-heading"><h2>${t('helpTitle')}</h2><button data-action="close" class="icon-button" aria-label="${t('close')}">×</button></div>${[1,2,3,4,5,6,7].map(i=>`<p>${t('help'+i)}</p>`).join('')}<button class="demo-button" data-action="demo">${t('demo')}</button></dialog>`;
-  sizeEnglishColumn();
+    <main class="workspace"><div class="inputs">${card('gc1',1)}${card('gc2',2)}${magicStage('charge')}${magicStage('out')}</div><section class="results" aria-labelledby="result-title"><h2 id="result-title">${t('result')}<span class="result-tools"><button class="reset-button" data-action="reset">${svg('reset')}<span>${t('reset')}</span></button><button class="position-button" data-action="side" title="${t(resultsSide==='left'?'toRight':'toLeft')}" aria-label="${t(resultsSide==='left'?'toRight':'toLeft')}">⇄</button></span></h2><div id="live-route" aria-live="polite" aria-atomic="true">${['early','late'].map((timing,index)=>`<section class="resolution"><h3>${t(index===0?'first':'second')}</h3><ol start="${index*3+1}">${route.rows.slice(index*3,index*3+3).map((r,i)=>row(r,index*3+i)).join('')}</ol></section>`).join('')}</div></section></main><footer class="toolbar"><h1>DMU <span>${t('title')}</span></h1><div class="toolbar-controls"><div class="languages" role="group" aria-label="Language">${[['zh','中'],['ja','日'],['en','EN']].map(([k,label])=>`<button data-lang="${k}" aria-pressed="${lang===k}" class="${lang===k?'active':''}">${label}</button>`).join('')}</div><button class="icon-button" data-action="theme" aria-label="${t(document.documentElement.dataset.theme==='dark'?'light':'dark')}">${svg(document.documentElement.dataset.theme==='dark'?'sun':'moon')}</button><button type="button" class="icon-button settings-button" data-action="settings" title="${t('settings')}" aria-label="${t('settings')}">${settingsIcon}</button><button class="icon-button help-button" data-action="help" aria-label="${t('help')}">${svg('help')}</button></div></footer>
+    <dialog id="help-dialog"><div class="dialog-heading"><h2>${t('helpTitle')}</h2><button data-action="close" class="icon-button" aria-label="${t('close')}">×</button></div>${[1,2,3,4,5,6,7].map(i=>`<p>${t('help'+i)}</p>`).join('')}<button class="demo-button" data-action="demo">${t('demo')}</button></dialog>${settingsDialog()}`;
+  applyActionTextSize(actionTextSize,false);
   try{sessionStorage.setItem('dmu-input-v3',JSON.stringify(state));localStorage.setItem('dmu-lang',lang);localStorage.setItem('dmu-results-side-v2',resultsSide);}catch{}
 }
 let previous=null,toastTimer;
 function clearToast(){document.querySelector('#toast').classList.remove('show');document.querySelector('#toast').replaceChildren();}
 function toast(message,undo=false){clearTimeout(toastTimer);const el=document.querySelector('#toast');el.innerHTML=`<span>${message}</span>${undo?`<button data-action="undo">${t('undo')}</button>`:''}`;el.classList.add('show');toastTimer=setTimeout(clearToast,5000);}
+let backdropDialog=null;
+function isDialogBackdrop(event){
+  if(!event.target.matches?.('dialog[open]'))return false;
+  const rect=event.target.getBoundingClientRect();
+  return event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;
+}
+document.addEventListener('pointerdown',event=>{backdropDialog=isDialogBackdrop(event)?event.target:null;});
 document.addEventListener('click',event=>{
+  if(backdropDialog===event.target&&isDialogBackdrop(event)){backdropDialog.close();backdropDialog=null;return;}
+  backdropDialog=null;
   const b=event.target.closest('button');if(!b)return;const {gc,field,value,action}=b.dataset;
+  if(action==='settings'){document.querySelector('#settings-dialog').showModal();return;}
+  if(action==='settings-close'){document.querySelector('#settings-dialog').close();return;}
+  if(['text-smaller','text-larger','text-default'].includes(action)){applyActionTextSize(action==='text-default'?100:actionTextSize+(action==='text-smaller'?-5:5));return;}
   if(b.dataset.magicStage){const stage=b.dataset.magicStage,element=b.dataset.element;selectMagic(state,stage,element,value);render();document.querySelector(`[data-magic-stage="${stage}"][data-element="${element}"][data-value="${value}"]`)?.focus({preventScroll:true});return;}
   if(gc&&state[gc]&&field in state[gc]){select(state,gc,field,['gaze'].includes(field)?true:value);render();document.querySelector(`[data-gc="${gc}"][data-field="${field}"][data-value="${value}"]`)?.focus({preventScroll:true});return;}
   if(b.dataset.lang){const left=window.scrollX,top=window.scrollY;lang=b.dataset.lang;render();document.querySelector(`[data-lang="${lang}"]`)?.focus({preventScroll:true});window.scrollTo({left,top,behavior:'instant'});requestAnimationFrame(()=>window.scrollTo({left,top,behavior:'instant'}));return;}
@@ -74,6 +107,7 @@ document.addEventListener('click',event=>{
   if(action==='help')document.querySelector('#help-dialog').showModal();if(action==='close')document.querySelector('#help-dialog').close();
   if(action==='demo'){state=blank();Object.assign(state.gc1,{truth:'true',timing:'early',gaze:true,accel:'early',chaos:'fake',element:'fire'});Object.assign(state.gc2,{truth:'fake',timing:'late',water:'water',chaos:'true'});state.magic={charge:{ice:'fake',thunder:'true'},out:{ice:'fake',thunder:'fake'}};render();}
 });
+document.addEventListener('input',event=>{if(event.target.matches('[data-action-text-size]'))applyActionTextSize(event.target.value);});
 render();
-window.addEventListener?.('resize',sizeEnglishColumn);
+window.addEventListener?.('resize',()=>applyActionTextSize(actionTextSize,false));
 document.fonts?.ready.then(sizeEnglishColumn);

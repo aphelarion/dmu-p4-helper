@@ -19,7 +19,7 @@ FFXIV 絕妖星亂舞 P4 大十字的非官方記憶工具。手動輸入減益�
 3. 選擇自己的視線或加速度。GC1 視線與短加速度、GC2 視線與長加速度會一起選取／取消；衝突的減益會自動取消。
 4. 輸入兩次卡奧斯的真假，水／火只需選第1次，第2次會自動選另一種。
 5. 分別記錄魔法儲存與魔法放出的雷、冰真假。同元素兩次相同為真、不同為假；四項填完後顯示安區。
-6. 再點已選按鈕可取消；「重置」清空輸入，「⇄」切換行動欄左右。頁尾可切換語言、深淺色，或開啟「?」說明。
+6. 再點已選按鈕可取消；「重置」清空輸入，「⇄」切換行動欄左右。頁尾可切換語言、深淺色，或開啟「?」說明。「設定」可調整行動提示字體大小（80%～150%），並記住選擇。
 
 ### 本地啟動
 
@@ -53,7 +53,7 @@ FFXIV「絶妖星乱舞」P4 グランドクロスの非公式メモツールで
 3. 自分の視線または加速度を選びます。GC1の視線は早加速、GC2の視線は遅加速と連動し、選択も解除もセットです。両立しないデバフは自動解除されます。
 4. 各カオスの真偽を入力します。ほのお／つなみは1回目だけ選択し、2回目は自動で反対の属性になります。
 5. マジックチャージとマジックアウトの雷・氷の真偽を記録します。同じ属性で真偽が一致すると本当、不一致なら嘘です。4項目を入力すると安置を表示します。
-6. 選択中のボタンをもう一度押すと解除。「リセット」で入力を消し、「⇄」で行動欄の左右を変更できます。ページ下部で言語・テーマを変更したり、「?」で使い方を確認できます。
+6. 選択中のボタンをもう一度押すと解除。「リセット」で入力を消し、「⇄」で行動欄の左右を変更できます。ページ下部で言語・テーマを変更したり、「?」で使い方を確認できます。「設定」で行動指示の文字サイズを80%～150%に変更・保存できます。
 
 ### ローカル起動
 
@@ -87,7 +87,7 @@ On your first visit, the browser's language preferences select Chinese, Japanese
 3. Select your Gaze or Accel debuff. GC1 Gaze pairs with Short Accel; GC2 Gaze pairs with Long Accel. Each pair is selected and cleared together. Conflicting debuffs clear automatically.
 4. Enter Real/Fake for each Chaos. Choose Fire/Water for the first Chaos only; the second element is automatically the opposite.
 5. Record Thunder/Ice as Real/Fake for both Mana Charge and Mana Release. Matching values resolve Real; different values resolve Fake. Complete all four inputs to see the safe spot.
-6. Tap a selected button again to clear it. Reset clears inputs; ⇄ swaps the action column. Use the footer to change language/theme or open ? for help.
+6. Tap a selected button again to clear it. Reset clears inputs; ⇄ swaps the action column. Use the footer to change language/theme or open ? for help. Settings adjusts action text size from 80% to 150% and remembers your choice.
 
 ### Run locally
 

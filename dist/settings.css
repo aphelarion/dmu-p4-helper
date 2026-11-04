@@ -1,0 +1,33 @@
+:root{--action-text-scale:1;--action-text-growth:0}
+.route-word{font-size:calc(var(--route-value-size,22px) * var(--action-text-scale));line-height:calc(var(--route-value-line,28px) * var(--action-text-scale))}
+html[data-action-text-size=custom] .results{--route-first:calc(var(--route-base-first) * var(--action-text-scale))}
+html[data-action-text-size=custom] .route-entry{height:auto;min-height:calc(var(--action-row-base,var(--route-row-height)) + var(--route-value-line) * var(--action-text-growth) * var(--action-row-lines,1))}
+.settings-dialog{max-width:420px}
+.text-size-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:22px 0 12px;font-size:14px}
+.text-size-heading output{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+.text-size-controls{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:12px}
+.text-size-controls button{min-height:44px;border:1px solid var(--line);border-radius:6px;background:var(--button);font-size:17px;font-weight:600}
+.text-size-controls button:disabled{opacity:.4;cursor:default}
+.text-size-controls input{width:100%;min-width:0;height:44px;margin:0;accent-color:var(--accent);cursor:pointer}
+.text-size-controls input:focus-visible{outline:3px solid var(--selected-line);outline-offset:2px}
+.text-size-preview{display:flex;align-items:center;align-content:center;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin:18px 0;padding:16px 10px;min-height:72px;background:var(--button);border:1px solid var(--line);border-radius:6px}
+.settings-default{display:block;margin-left:auto}
+@media(max-width:800px){
+ .route-entry{--action-row-base:54px}
+ .route-entry.water{--action-row-base:108px;--action-row-lines:2}
+ .route-entry.gaze{--action-row-base:76px;--action-row-lines:2}
+ .route-entry.with-safe{--action-row-base:120px;--action-row-lines:2}
+ .settings-dialog{padding:18px}
+}
+@media(max-width:800px) and (max-height:700px){
+ .route-entry{--action-row-base:48px}
+ .route-entry.water{--action-row-base:100px}
+ .route-entry.gaze{--action-row-base:68px}
+ .route-entry.with-safe{--action-row-base:116px}
+}
+@media(max-width:800px) and (max-height:600px){
+ .route-entry{--action-row-base:44px}
+ .route-entry.water{--action-row-base:92px}
+ .route-entry.gaze{--action-row-base:62px}
+ .route-entry.with-safe{--action-row-base:108px}
+}
