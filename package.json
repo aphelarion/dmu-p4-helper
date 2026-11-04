@@ -1,0 +1,1 @@
+{"name":"dmu-p4-helper","private":true,"type":"module","scripts":{"start":"node server.mjs","test":"node tests.mjs"}}

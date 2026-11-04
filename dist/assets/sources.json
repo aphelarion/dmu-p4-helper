@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Compressed Water",
+    "id": 215696,
+    "width": 48,
+    "height": 64,
+    "depth": 8,
+    "type": 6,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "transparentPixels": 605
+    },
+    "url": "https://v2.xivapi.com/api/asset?path=ui%2Ficon%2F215000%2F215696_hr1.tex&format=png"
+  },
+  {
+    "name": "Forked Lightning",
+    "id": 215623,
+    "width": 48,
+    "height": 64,
+    "depth": 8,
+    "type": 6,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "transparentPixels": 605
+    },
+    "url": "https://v2.xivapi.com/api/asset?path=ui%2Ficon%2F215000%2F215623_hr1.tex&format=png"
+  },
+  {
+    "name": "Cursed Shriek",
+    "id": 215588,
+    "width": 48,
+    "height": 64,
+    "depth": 8,
+    "type": 6,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "transparentPixels": 605
+    },
+    "url": "https://v2.xivapi.com/api/asset?path=ui%2Ficon%2F215000%2F215588_hr1.tex&format=png"
+  },
+  {
+    "name": "Acceleration Bomb",
+    "id": 215727,
+    "width": 48,
+    "height": 64,
+    "depth": 8,
+    "type": 6,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "transparentPixels": 605
+    },
+    "url": "https://v2.xivapi.com/api/asset?path=ui%2Ficon%2F215000%2F215727_hr1.tex&format=png"
+  },
+  {
+    "name": "Entropy",
+    "id": 215902,
+    "width": 48,
+    "height": 64,
+    "depth": 8,
+    "type": 6,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "transparentPixels": 605
+    },
+    "url": "https://v2.xivapi.com/api/asset?path=ui%2Ficon%2F215000%2F215902_hr1.tex&format=png"
+  },
+  {
+    "name": "Dynamic Fluid",
+    "id": 215903,
+    "width": 48,
+    "height": 64,
+    "depth": 8,
+    "type": 6,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "transparentPixels": 605
+    },
+    "url": "https://v2.xivapi.com/api/asset?path=ui%2Ficon%2F215000%2F215903_hr1.tex&format=png"
+  }
+]
