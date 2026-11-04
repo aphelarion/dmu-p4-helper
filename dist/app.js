@@ -32,7 +32,7 @@ function applyActionTextSize(value,persist=true){
   const smaller=document.querySelector('[data-action="text-smaller"]'),larger=document.querySelector('[data-action="text-larger"]');
   if(smaller)smaller.disabled=actionTextSize<=80;if(larger)larger.disabled=actionTextSize>=150;
   const preview=document.querySelector('.text-size-preview'),results=document.querySelector('.results');
-  if(preview&&results){const style=getComputedStyle(results);for(const key of ['--route-value-size','--route-value-line'])preview.style.setProperty(key,style.getPropertyValue(key));}
+  if(preview&&results){const style=getComputedStyle(results.querySelector('.route-word')),scale=actionTextSize/100;preview.style.setProperty('--route-value-size',`${parseFloat(style.fontSize)/scale}px`);preview.style.setProperty('--route-value-line',`${parseFloat(style.lineHeight)/scale}px`);}
   sizeEnglishColumn();
   if(persist)try{localStorage.setItem('dmu-action-text-size',String(actionTextSize));}catch{}
 }
@@ -46,7 +46,8 @@ function sizeEnglishColumn(){
   const labelStyle=getComputedStyle(label),badgeStyle=getComputedStyle(badge);
   const badgeExtra=['paddingLeft','paddingRight','borderLeftWidth','borderRightWidth'].reduce((sum,key)=>sum+parseFloat(badgeStyle[key]||0),0);
   const heading=measure(t('waterRow'),labelStyle)+measure(t(personal?'personal':'party'),badgeStyle)+badgeExtra+parseFloat(labelStyle.columnGap||0);
-  const base=parseFloat(getComputedStyle(results).getPropertyValue('--route-base-first'))*actionTextSize/100;
+  results.style.removeProperty('--route-first');
+  const base=parseFloat(getComputedStyle(results.querySelector('.route-body')).gridTemplateColumns);
   const breathingRoom=parseFloat(wordStyle.fontSize)*.5;
   results.style.setProperty('--route-first',`${Math.ceil(Math.max(base,heading,...keys.map(key=>measure(t(key),wordStyle,'700')))+breathingRoom)}px`);
 }

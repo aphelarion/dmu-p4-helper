@@ -6,13 +6,13 @@
 .paired-choice .truth-mark{display:flex;align-items:center;justify-content:center;flex-basis:auto}
 .input-card .truth-mark::before,.input-card .truth-mark::after{content:none}
 .truth-mark>img{display:block;width:100%;height:auto;aspect-ratio:1;max-height:100%;object-fit:contain;flex:none}
-:root[data-theme=light] .choice.true.selected{border-color:#1887ad}
-:root[data-theme=light] .choice.fake.selected{border-color:#c4455c}
-#app{height:auto;min-height:0;display:block;overflow:visible}
-.workspace{width:100%;margin-top:10px;margin-bottom:10px;align-items:start;overflow:visible}
+:root[data-theme=light] .choice.true.selected{border-color:#1887ad;--choice-ring:#1887ad}
+:root[data-theme=light] .choice.fake.selected{border-color:#c4455c;--choice-ring:#c4455c}
+#app{height:auto;min-height:100dvh;display:flex;flex-direction:column;overflow:visible}
+.workspace{width:100%;flex:1 0 auto;margin-top:10px;margin-bottom:10px;align-items:start;overflow:visible}
 .inputs{height:auto;max-height:none;overflow:visible;align-content:start}
 .results{position:sticky;top:8px;height:auto;max-height:none;overflow:visible;container-type:normal}
-.toolbar{position:static;min-height:50px;margin-bottom:10px;padding-top:6px;padding-bottom:6px}
+.toolbar{position:static;flex:0 0 auto;width:100%;min-height:50px;margin-top:auto;margin-bottom:10px;padding-top:6px;padding-bottom:6px}
 .route-entry.with-safe{height:auto;min-height:var(--route-row-height)}
 @media(min-width:801px){
  .inputs{gap:14px}
@@ -97,4 +97,55 @@
  .route-entry.water{height:92px}
  .route-entry.gaze{height:62px}
  .route-entry.with-safe{height:108px}
+}
+/* Reference desktop: about 1707 x 795 CSS px (1440p at Windows 150%). */
+/* A 16px height reserve absorbs fixed borders and fractional-scale rounding. */
+@media(min-width:801px){
+ .workspace{--desktop-unit:clamp(.45px,min(calc(100vw / 1707),calc((100dvh - 16px) / 795)),1.5px);max-width:min(calc(100% - 32px),calc(1651 * var(--desktop-unit)));gap:calc(20 * var(--desktop-unit));margin-top:calc(6 * var(--desktop-unit));margin-bottom:calc(6 * var(--desktop-unit))}
+ .inputs{gap:calc(11 * var(--desktop-unit))}
+ .input-card{--option-icon-width:calc(36 * var(--desktop-unit));--option-icon-height:calc(46 * var(--desktop-unit));--option-font-size:calc(17 * var(--desktop-unit));--option-gap:calc(10 * var(--desktop-unit));padding:calc(14 * var(--desktop-unit))}
+ .input-card h2{font-size:calc(18 * var(--desktop-unit));margin-bottom:calc(8 * var(--desktop-unit))}
+ .mode-label{font-size:calc(11 * var(--desktop-unit));padding:calc(3 * var(--desktop-unit)) calc(8 * var(--desktop-unit))}
+ .choice{min-height:calc(56 * var(--desktop-unit));padding:calc(6 * var(--desktop-unit))}
+ .choice.selected:after{font-size:calc(11 * var(--desktop-unit));right:calc(5 * var(--desktop-unit));top:calc(2 * var(--desktop-unit))}
+ .choices{gap:calc(10 * var(--desktop-unit))}
+ .status-icon{width:calc(36 * var(--desktop-unit));height:calc(46 * var(--desktop-unit))}
+ fieldset{margin-top:calc(12 * var(--desktop-unit))}
+ legend{font-size:calc(13 * var(--desktop-unit));margin-bottom:calc(6 * var(--desktop-unit))}
+ legend small{font-size:calc(11 * var(--desktop-unit))}
+ .timing-choices{margin-top:calc(8 * var(--desktop-unit))}
+ .timing-choices .choice{min-height:calc(44 * var(--desktop-unit));font-size:calc(16 * var(--desktop-unit));gap:calc(15 * var(--desktop-unit))}
+ .timing-choices small{font-size:calc(12 * var(--desktop-unit))}
+ .buff-controls{margin-top:calc(12 * var(--desktop-unit));gap:calc(8 * var(--desktop-unit))}
+ .buff-choice{min-height:calc(72 * var(--desktop-unit));font-size:calc(14 * var(--desktop-unit));gap:calc(4 * var(--desktop-unit))}
+ .buff-choice .status-icon{width:calc(33 * var(--desktop-unit));height:calc(42 * var(--desktop-unit))}
+ .chaos-field{margin-top:calc(8 * var(--desktop-unit));padding-top:calc(10 * var(--desktop-unit))}
+ .chaos-field legend{height:calc(27 * var(--desktop-unit));min-height:calc(27 * var(--desktop-unit));line-height:calc(20 * var(--desktop-unit));margin-bottom:calc(7 * var(--desktop-unit))}
+ .auto-element{height:calc(23 * var(--desktop-unit));font-size:calc(12 * var(--desktop-unit))}
+ .auto-element img{width:calc(18 * var(--desktop-unit));height:calc(23 * var(--desktop-unit))}
+ .auto-element small{font-size:calc(9 * var(--desktop-unit))}
+ .element-choices{margin-top:calc(8 * var(--desktop-unit))}
+ .magic-stage.input-card h2{font-size:calc(14 * var(--desktop-unit));line-height:calc(20 * var(--desktop-unit));margin-bottom:calc(5 * var(--desktop-unit))}
+ .magic-stage .magic-input-row{grid-template-columns:calc(64 * var(--desktop-unit)) minmax(0,1fr);gap:calc(8 * var(--desktop-unit));margin-top:calc(5 * var(--desktop-unit))}
+ .magic-stage .magic-element{font-size:calc(12 * var(--desktop-unit))}
+ .magic-truth .choice{min-height:calc(48 * var(--desktop-unit));font-size:calc(15 * var(--desktop-unit));gap:calc(9 * var(--desktop-unit))}
+ .magic-truth .truth-mark{width:calc(24 * var(--desktop-unit));height:calc(24 * var(--desktop-unit));flex-basis:calc(24 * var(--desktop-unit))}
+ .results{--route-label-size:calc(11 * var(--desktop-unit));--route-label-line:calc(16 * var(--desktop-unit));--route-value-size:calc(20 * var(--desktop-unit));--route-value-line:calc(26 * var(--desktop-unit));--route-padding:calc(8 * var(--desktop-unit));--route-gap:calc(3 * var(--desktop-unit));--route-row-height:calc(64 * var(--desktop-unit));--route-base-first:calc(112 * var(--desktop-unit));--route-columns-gap:calc(14 * var(--desktop-unit));--route-number-offset:calc(30 * var(--desktop-unit));padding:calc(16 * var(--desktop-unit))}
+ .results>h2{font-size:calc(16 * var(--desktop-unit));margin-bottom:calc(10 * var(--desktop-unit))}
+ .results .reset-button{min-height:calc(36 * var(--desktop-unit));padding:0 calc(12 * var(--desktop-unit));font-size:calc(14 * var(--desktop-unit));gap:calc(8 * var(--desktop-unit))}
+ .results button svg{width:calc(20 * var(--desktop-unit));height:calc(20 * var(--desktop-unit))}
+ .result-tools{gap:calc(6 * var(--desktop-unit))}
+ .position-button{width:calc(34 * var(--desktop-unit));height:calc(30 * var(--desktop-unit));font-size:calc(21 * var(--desktop-unit));padding:0}
+ .resolution h3{font-size:calc(13 * var(--desktop-unit));line-height:calc(16 * var(--desktop-unit));margin:calc(12 * var(--desktop-unit)) 0 calc(5 * var(--desktop-unit))}
+ .resolution:first-child h3{margin-top:0}
+ .route-entry{margin-top:calc(6 * var(--desktop-unit));padding-right:calc(14 * var(--desktop-unit));padding-left:calc(44 * var(--desktop-unit))}
+ .route-label{column-gap:calc(7 * var(--desktop-unit))}
+ .route-badge,.resolved-truth>span{padding-right:calc(4 * var(--desktop-unit));padding-left:calc(4 * var(--desktop-unit));gap:calc(4 * var(--desktop-unit))}
+ .resolved-truth{gap:calc(5 * var(--desktop-unit))}
+ .toolbar{--desktop-unit:clamp(.45px,min(calc(100vw / 1707),calc((100dvh - 16px) / 795)),1.5px);max-width:min(calc(100% - 32px),calc(1651 * var(--desktop-unit)));min-height:calc(48 * var(--desktop-unit));padding-top:calc(3 * var(--desktop-unit));padding-bottom:calc(3 * var(--desktop-unit));margin-bottom:calc(8 * var(--desktop-unit));gap:calc(20 * var(--desktop-unit))}
+ .toolbar h1{font-size:calc(20 * var(--desktop-unit))}.toolbar h1>span{font-size:calc(18 * var(--desktop-unit))}
+ .toolbar .icon-button{width:calc(36 * var(--desktop-unit));height:calc(36 * var(--desktop-unit));padding:0}
+ .toolbar svg{width:calc(20 * var(--desktop-unit));height:calc(20 * var(--desktop-unit))}
+ .toolbar-controls{gap:calc(10 * var(--desktop-unit))}
+ .languages button{min-width:calc(36 * var(--desktop-unit));min-height:calc(36 * var(--desktop-unit));font-size:calc(13 * var(--desktop-unit))}
 }
