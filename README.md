@@ -1,4 +1,4 @@
-# DMU P4 Helper
+# DMU P4 Kefka Says
 
 [繁體中文](#繁體中文) · [日本語](#日本語) · [English](#english)
 
@@ -10,7 +10,7 @@ FFXIV 絕妖星亂舞 P4 大十字的非官方記憶工具。手動輸入減益�
 
 ### 網頁
 
-[開啟 DMU P4 Helper](https://aphelarion.github.io/dmu-p4-helper/)
+[開啟 DMU P4 Kefka Says](https://aphelarion.github.io/dmu-p4-helper/)
 
 ### 操作方式
 
@@ -44,7 +44,7 @@ FFXIV「絶妖星乱舞」P4 グランドクロスの非公式メモツールで
 
 ### Webサイト
 
-[DMU P4 Helper を開く](https://aphelarion.github.io/dmu-p4-helper/)
+[DMU P4 Kefka Says を開く](https://aphelarion.github.io/dmu-p4-helper/)
 
 ### 使い方
 
@@ -78,7 +78,7 @@ On your first visit, the browser's language preferences select Chinese, Japanese
 
 ### Website
 
-[Open DMU P4 Helper](https://aphelarion.github.io/dmu-p4-helper/)
+[Open DMU P4 Kefka Says](https://aphelarion.github.io/dmu-p4-helper/)
 
 ### How to use
 
