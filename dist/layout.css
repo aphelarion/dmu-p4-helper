@@ -12,7 +12,7 @@
 .workspace{width:100%;flex:1 0 auto;margin-top:10px;margin-bottom:10px;align-items:start;overflow:visible}
 .inputs{height:auto;max-height:none;overflow:visible;align-content:start}
 .results{position:sticky;top:8px;height:auto;max-height:none;overflow:visible;container-type:normal}
-.toolbar{position:static;flex:0 0 auto;width:100%;min-height:50px;margin-top:auto;margin-bottom:10px;padding-top:6px;padding-bottom:6px}
+.toolbar{position:static;flex:0 0 auto;width:100%;min-height:50px;margin-top:0;margin-bottom:0;padding-top:6px;padding-bottom:6px;border-top:0;border-bottom:1px solid var(--line)}
 .route-entry.with-safe{height:auto;min-height:var(--route-row-height)}
 @media(min-width:801px){
  .inputs{gap:14px}
@@ -142,7 +142,7 @@
  .route-label{column-gap:calc(7 * var(--desktop-unit))}
  .route-badge,.resolved-truth>span{padding-right:calc(4 * var(--desktop-unit));padding-left:calc(4 * var(--desktop-unit));gap:calc(4 * var(--desktop-unit))}
  .resolved-truth{gap:calc(5 * var(--desktop-unit))}
- .toolbar{--desktop-unit:clamp(.45px,min(calc(100vw / 1707),calc((100dvh - 16px) / 795)),1.5px);max-width:min(calc(100% - 32px),calc(1651 * var(--desktop-unit)));min-height:calc(48 * var(--desktop-unit));padding-top:calc(3 * var(--desktop-unit));padding-bottom:calc(3 * var(--desktop-unit));margin-bottom:calc(8 * var(--desktop-unit));gap:calc(20 * var(--desktop-unit))}
+ .toolbar{--desktop-unit:clamp(.45px,min(calc(100vw / 1707),calc((100dvh - 16px) / 795)),1.5px);max-width:min(calc(100% - 32px),calc(1651 * var(--desktop-unit)));min-height:calc(48 * var(--desktop-unit));padding-top:calc(3 * var(--desktop-unit));padding-bottom:calc(3 * var(--desktop-unit));margin-bottom:0;gap:calc(20 * var(--desktop-unit))}
  .toolbar h1{font-size:calc(20 * var(--desktop-unit))}.toolbar h1>span{font-size:calc(18 * var(--desktop-unit))}
  .toolbar .icon-button{width:calc(36 * var(--desktop-unit));height:calc(36 * var(--desktop-unit));padding:0}
  .toolbar svg{width:calc(20 * var(--desktop-unit));height:calc(20 * var(--desktop-unit))}
