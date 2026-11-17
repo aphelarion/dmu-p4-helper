@@ -175,7 +175,10 @@ for(const truth1 of [null,'true','fake'])for(const truth2 of [null,'true','fake'
  }
  for(const i of [1,4]){assert.equal(simple.rows[i].actions[0].center,false);assert.equal(simple.rows[i].actions[0].action,detailed.rows[i].actions[0].action);}
  for(const i of [2,5])assert.deepEqual(simple.rows[i],detailed.rows[i]);
- assert.ok(!simple.rows.some(row=>row.actions.some(action=>action.kind==='accel')));
+ const reminders=simple.rows.flatMap(row=>row.actions.filter(action=>action.kind==='accel').map(action=>({row:row.type,...action})));
+ assert.equal(reminders.length,owner?2:0);
+ for(const reminder of reminders){assert.equal(reminder.row,'water');assert.equal(reminder.parenthetical,true);assert.equal(reminder.action,simple.untimed[0].action);assert.equal(reminder.source,simple.untimed[0].source);}
+ assert.equal(simple.untimed[0].parenthetical,undefined,'The top acceleration call stays unbracketed');
  assert.equal(simple.untimed.length,1);
  assert.equal(simple.untimed[0].action,owner?(state[owner].truth==='true'?'stop':state[owner].truth==='fake'?'move':null):null);
 }

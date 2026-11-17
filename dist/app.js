@@ -68,11 +68,11 @@ function card(gc,n){
     ${debuffs}
     <fieldset class="chaos-field"><legend>${t('chaos')}${n===2?`<span class="auto-element ${element?'':'slot-empty'}" title="${t('autoElement')}" aria-hidden="${!element}">${icon(element||'wave')}${t(element||'wave')}<small>${t('auto')}</small></span>`:''}</legend>${truthChoices(gc,'chaos')}${n===1?`<div class="choices element-choices" role="group" aria-label="${t('element')}">${['fire','wave'].map(k=>choice(gc,'element',k,`${icon(k)}<span>${t(k)}</span>`,'with-icon paired-choice')).join('')}</div>`:''}</fieldset></section>`;
 }
-function action(a){return `<div class="route-values"><span class="route-word ${a.kind} ${a.action||'unknown'}">${t(a.action||'unset')}</span>${a.kind==='gaze'&&a.center?`<span class="route-word center">${t('center')}</span>`:''}</div>`;}
+function action(a){return `<div class="route-values"><span class="route-word ${a.kind} ${a.action||'unknown'}">${a.parenthetical?(lang==='en'?'(': '（'):''}${t(a.action||'unset')}${a.parenthetical?(lang==='en'?')':'）'):''}</span>${a.kind==='gaze'&&a.center?`<span class="route-word center">${t('center')}</span>`:''}</div>`;}
 function call(a,label,mode=''){return `<div class="route-call ${a.kind}-call"><div class="route-label"><span>${t(label)}</span>${mode?`<span class="route-badge">${t(mode)}</span>`:''}</div>${action(a)}</div>`;}
 function row(r,i){
   const primary=r.actions[0],acceleration=r.actions.find(a=>a.kind==='accel');
-  const content=r.type==='water'?`${call(primary,'waterRow',primary.mode)}${viewMode==='simple'?'':`<div class="route-extra ${acceleration?'':'slot-empty'}" aria-hidden="${!acceleration}">${call(acceleration||{kind:'accel',action:null},'accel')}</div>`}`:`${call(primary,r.type==='gaze'?'gazeRow':primary.icon)}${i===5?magicSafe():''}`;
+  const content=r.type==='water'?`${call(primary,'waterRow',primary.mode)}<div class="route-extra ${acceleration?'':'slot-empty'}" aria-hidden="${!acceleration}">${call(acceleration||{kind:'accel',action:null},'accel')}</div>`:`${call(primary,r.type==='gaze'?'gazeRow':primary.icon)}${i===5?magicSafe():''}`;
   return `<li class="route-entry ${r.type} ${i===5?'with-safe':''}"><div class="route-body"><span class="route-step">${i+1}</span>${content}</div></li>`;
 }
 function magicChoices(stage,element){return `<div class="choices magic-truth" role="group" aria-label="${t(stage==='out'?'magicOut':stage)} · ${t(element)}">${['true','fake'].map(value=>`<button type="button" class="choice ${value} ${state.magic[stage][element]===value?'selected':''}" data-magic-stage="${stage}" data-element="${element}" data-value="${value}" aria-pressed="${state.magic[stage][element]===value}">${truthMark(value)}<span>${t(value)}</span></button>`).join('')}</div>`;}

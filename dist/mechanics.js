@@ -33,6 +33,7 @@ export function simpleTimeline(state,accelOwner=null){
   const route=timeline(projected);
   const source=['gc1','gc2'].includes(accelOwner)?accelOwner:null;
   route.untimed=[{kind:'accel',icon:'accel',action:source?accelAction(state[source].truth):null,source:source==='gc1'?1:source==='gc2'?2:null}];
+  if(source)for(const row of route.rows)if(row.type==='water')row.actions.push({...route.untimed[0],parenthetical:true});
   route.complete=route.rows.every(r=>r.actions.every(a=>!!a.action))&&!!route.untimed[0].action;
   return route;
 }
